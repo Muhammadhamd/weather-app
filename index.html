@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Acme&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Josefin+Sans:ital,wght@1,500;1,700&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Oswald:wght@700&family=Pacifico&family=Permanent+Marker&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik+Glitch&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&family=Ubuntu+Condensed&family=Ubuntu:wght@500&family=Work+Sans:ital,wght@0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <!-- for weather icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.css">
+</head>
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+    .background{
+        width: 100%;
+    min-height: 100vh;
+    background: url(img/image.jpg) , #00000033;
+    background-size: cover;
+    background-blend-mode: darken;
+    }
+    .container{
+        width: 100%;
+    display: flex;
+    justify-content: center;
+    }
+    .main-div{
+        display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px 0 0 0;
+    color: white;
+    font-family: "Inter";
+    }
+    /* for same font weight */
+    .main-div .cityname, .main-div .climate , .main-div p {
+        font-weight: 300;
+    }
+    .main-div .temp-div{
+        display: flex;
+        width: 175px;
+        justify-content: space-between;
+    }
+    .main-div .temp-div h1{
+    display: flex;
+    font-size: 80px;
+    height:90px;
+    font-weight: 400;
+    align-items: center;
+    }
+    .main-div .temp-div div {
+        display: flex;
+        align-items: center;
+        font-size: 40px;
+    }
+    .main-div .temp-div div i{}
+    .main-div .temp-div h1 div{
+        font-size: 16px;
+    font-weight: 400;
+    width: 25px;
+    height: 40px;
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    }
+    .main-div .temp-div h4{}
+    .main-div  p{
+        font-size: 10px;
+        margin: 5px 0;
+    }
+
+    .otherinfo{
+        width: 100%;
+        max-width: 244px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px 20px;
+    justify-content: center;
+    }
+    .otherinfo{
+        font-size: 20px;
+    }
+
+    .future-weather-main-div{
+        color: white;
+        font-family: "Inter";
+    }
+    .future-weather-main-div h1{}
+    .future-weather-main-div .future-weather-div{
+        display: flex;
+    /* flex-wrap: wrap; */
+    width: 100%;
+    max-width: 1096px;
+    overflow:scroll;
+    text-align: center;
+    }
+    .future-weather-main-div .future-weather-div::-webkit-scrollbar{
+    }
+    .future-weather-main-div .future-weather-div .box{
+        width: 267px;
+    height: 150px;
+    margin: 5px 10px;
+    border-radius: 10px;
+    background-color: #ffffff26;
+    padding: 20px 20px;
+    min-width: 200px;
+    }
+    .future-weather-div .box .future-temp-div{
+        font-size: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    }
+</style>
+<body>
+   <div class="main-container background">
+    <div class="container">
+        <div class="main-div">
+            <h3 class="cityname"></h3>
+            <div class="temp-div">
+                <div><i class="wi wi-cloud"></i></div>
+                <h1 class="temp"></h1>
+            </div>
+            <h3 class="climate">Mostly sunny</h3>
+            <p>updated on 4/7/2004</p>
+            <div class="otherinfo">
+                <p></p>
+                <p></p>
+                <p></p>
+                <p></p>
+                <p></p>
+            </div>
+         </div>
+    </div>
+    <div class="future-weather-main-div">
+        <h1>Daily</h1>
+        <div class="future-weather-div">
+
+        </div>
+    </div>
+   </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+
+
+
+// this function is for user current location
+
+        function userLocationWeather(){
+            let currentWeather = document.querySelector(".exect-temp");
+            let url = 'https://api.forecast.io/forecast/';
+            let API_kEY2 ="55ed6506084ce95d3d156f3e33617f3e"
+
+
+            navigator.geolocation.getCurrentPosition(sucess , error);
+            
+            function sucess(position){
+            let      latitude = position.coords.latitude;
+            let longitude = position.coords.longitude;
+
+             axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_kEY2}&units=metric`)
+
+        
+
+
+            .then(function(response){
+                console.log(response.data);
+                document.querySelector(".cityname").innerHTML = `${response.data.name},${response.data.sys.country}`
+                document.querySelector(".temp").innerHTML = `${Math.floor(response.data.main.temp)}<div>°C</div>`
+                document.querySelector(".climate").innerHTML = `${response.data.weather[0].main}`
+                document.querySelector(".otherinfo p:nth-child(1)").innerHTML = `humiduty: ${Math.floor( response.data.main.humidity)}`
+                document.querySelector(".otherinfo p:nth-child(2)").innerHTML = `feels like: ${Math.floor( response.data.main.feels_like)}`
+                document.querySelector(".otherinfo p:nth-child(3)").innerHTML = `pressure: ${Math.floor( response.data.main.pressure)}`
+                document.querySelector(".otherinfo p:nth-child(4)").innerHTML = `wind-speed: ${Math.floor( response.data.wind.speed)}`
+                document.querySelector(".otherinfo p:nth-child(5)").innerHTML = `wind-deg: ${Math.floor( response.data.wind.deg)}`
+
+                        //    conditions for the icons accourding to weather
+let climate = document.querySelector(".climate").innerHTML
+        if(climate == "Clear"){
+            document.querySelector(".temp-div div i").className = "wi wi-wu-clear";
+            console.log(climate)
+        }else if(climate == 'Haze'){
+            
+            document.querySelector(".temp-div div i").className = "wi wi-day-haze";
+        }
+        else{
+            console.log("climate not found")
+        }
+            })
+        }
+            function error() {
+                document.querySelector(".cityname").innerHTML = "Unable to retrieve your location";
+    }
+
+    document.querySelector(".cityname").innerHTML = "Locating...";
+
+  }
+
+userLocationWeather(); 
+
+
+
+
+        
+
+        // window.onload = function(){
+        //     // this api key for future update
+
+        //     // this api key for current update
+        //     API_kEY2 ="55ed6506084ce95d3d156f3e33617f3e"
+        //     cityName = document.querySelector(".mycity").value,
+        //     result = document.querySelector(".result");
+        //     let currentWeather = document.querySelector(".exect-temp");
+
+        //     axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=24.9666088&lon=67.0638435&appid=${API_kEY2}&units=metric`)
+
+        //     .then(function(response){
+        //         currentWeather.innerHTML = `<h1> ${response.data.name} </h1>`
+        //     })
+
+        //     .catch(function(error){
+        //           console.log(error.data);
+        //             currentWeather.innerHTML = "error in getting weather data"
+        //     })
+
+
+       
+                window.onload = function(){
+
+            
+
+            let API_KEY = "55ed6506084ce95d3d156f3e33617f3e";
+
+axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=karachi&appid=${API_KEY}&units=metric`)
+// api.openweathermap.org/data/2.5/forecast?id=524901&appid={API key}
+
+.then(function(respons){
+    let rs ="";
+    let lists = respons.data.list;
+    
+    for (let i = 0; i < lists.length; i++) {
+        let weekDays =["sun","Mon" , "Tues" , "Wed","Thus","Fri","Sat"];
+    
+        rs += `<div class="box">`
+        rs +=`<div class="future-temp-div"><i class="wi wi-day-cloudy"></i>${lists[i].main.temp}</div>`;
+        rs += weekDays[new Date(lists[i].dt_txt).getDay()] +"<br/>";
+        rs += "</div>"
+        
+        console.log(lists)
+    }
+    document.querySelector(".future-weather-div").innerHTML +=rs
+
+})
+.catch(function(error){
+      console.log(error.data);
+        result.innerHTML = "error in getting weather data"
+})
+        }
+
+
+    </script>
+</body>
+</html>
