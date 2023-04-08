@@ -153,58 +153,58 @@
 
 // this function is for user current location
 
-        function userLocationWeather(){
-            let currentWeather = document.querySelector(".exect-temp");
-            let API_kEY2 ="55ed6506084ce95d3d156f3e33617f3e"
+//         function userLocationWeather(){
+//             let currentWeather = document.querySelector(".exect-temp");
+//             let API_kEY2 ="55ed6506084ce95d3d156f3e33617f3e"
 
 
-            navigator.geolocation.getCurrentPosition(sucess , error);
+//             navigator.geolocation.getCurrentPosition(sucess , error);
             
-            function sucess(position){
-            let      latitude = position.coords.latitude;
-            let longitude = position.coords.longitude;
+//             function sucess(position){
+//             let      latitude = position.coords.latitude;
+//             let longitude = position.coords.longitude;
 
-             axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_kEY2}&units=metric`)
+//              axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_kEY2}&units=metric`)
 
-            .then(function(response){
-                console.log(response.data);
-                document.querySelector(".cityname").innerHTML = `${response.data.name},${response.data.sys.country}`
-                document.querySelector(".temp").innerHTML = `${Math.floor(response.data.main.temp)}<div>°C</div>`
-                document.querySelector(".climate").innerHTML = `${response.data.weather[0].main}`
-                document.querySelector(".otherinfo p:nth-child(1)").innerHTML = `humiduty: ${Math.floor( response.data.main.humidity)}`
-                document.querySelector(".otherinfo p:nth-child(2)").innerHTML = `feels like: ${Math.floor( response.data.main.feels_like)}`
-                document.querySelector(".otherinfo p:nth-child(3)").innerHTML = `pressure: ${Math.floor( response.data.main.pressure)}`
-                document.querySelector(".otherinfo p:nth-child(4)").innerHTML = `wind-speed: ${Math.floor( response.data.wind.speed)}`
-                document.querySelector(".otherinfo p:nth-child(5)").innerHTML = `wind-deg: ${Math.floor( response.data.wind.deg)}`
+//             .then(function(response){
+//                 console.log(response.data);
+//                 document.querySelector(".cityname").innerHTML = `${response.data.name},${response.data.sys.country}`
+//                 document.querySelector(".temp").innerHTML = `${Math.floor(response.data.main.temp)}<div>°C</div>`
+//                 document.querySelector(".climate").innerHTML = `${response.data.weather[0].main}`
+//                 document.querySelector(".otherinfo p:nth-child(1)").innerHTML = `humiduty: ${Math.floor( response.data.main.humidity)}`
+//                 document.querySelector(".otherinfo p:nth-child(2)").innerHTML = `feels like: ${Math.floor( response.data.main.feels_like)}`
+//                 document.querySelector(".otherinfo p:nth-child(3)").innerHTML = `pressure: ${Math.floor( response.data.main.pressure)}`
+//                 document.querySelector(".otherinfo p:nth-child(4)").innerHTML = `wind-speed: ${Math.floor( response.data.wind.speed)}`
+//                 document.querySelector(".otherinfo p:nth-child(5)").innerHTML = `wind-deg: ${Math.floor( response.data.wind.deg)}`
 
-                        //    conditions for the icons accourding to weather
-let climate = document.querySelector(".climate").innerHTML
-        if(climate == "Clear"){
-            document.querySelector(".temp-div div i").className = "wi wi-wu-clear";
-            console.log(climate)
-        }else if(climate == 'Haze'){
+//                         //    conditions for the icons accourding to weather
+// let climate = document.querySelector(".climate").innerHTML
+//         if(climate == "Clear"){
+//             document.querySelector(".temp-div div i").className = "wi wi-wu-clear";
+//             console.log(climate)
+//         }else if(climate == 'Haze'){
             
-            document.querySelector(".temp-div div i").className = "wi wi-day-haze";
-        }
-        else{
-            console.log("climate not found")
-        }
-            })
+//             document.querySelector(".temp-div div i").className = "wi wi-day-haze";
+//         }
+//         else{
+//             console.log("climate not found")
+//         }
+//             })
         
-        }
+//         }
 
 
 
 
-            function error() {
-                document.querySelector(".cityname").innerHTML = "Unable to retrieve your location";
-    }
+//             function error() {
+//                 document.querySelector(".cityname").innerHTML = "Unable to retrieve your location";
+//     }
 
-    document.querySelector(".cityname").innerHTML = "Locating...";
+//     document.querySelector(".cityname").innerHTML = "Locating...";
 
-  }
+//   }
 
-userLocationWeather(); 
+// userLocationWeather(); 
 
 
 
@@ -260,7 +260,7 @@ axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=karachi&appid=${API
 
 })
 .catch(function(error){
-      console.log(not found);
+      console.log("not found");
 })
         }
         forfutureweather();
