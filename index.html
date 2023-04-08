@@ -155,7 +155,6 @@
 
         function userLocationWeather(){
             let currentWeather = document.querySelector(".exect-temp");
-            let url = 'https://api.forecast.io/forecast/';
             let API_kEY2 ="55ed6506084ce95d3d156f3e33617f3e"
 
 
@@ -165,61 +164,33 @@
             let      latitude = position.coords.latitude;
             let longitude = position.coords.longitude;
 
-//              axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_kEY2}&units=metric`)
+             axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_kEY2}&units=metric`)
 
-//             .then(function(response){
-//                 console.log(response.data);
-//                 document.querySelector(".cityname").innerHTML = `${response.data.name},${response.data.sys.country}`
-//                 document.querySelector(".temp").innerHTML = `${Math.floor(response.data.main.temp)}<div>°C</div>`
-//                 document.querySelector(".climate").innerHTML = `${response.data.weather[0].main}`
-//                 document.querySelector(".otherinfo p:nth-child(1)").innerHTML = `humiduty: ${Math.floor( response.data.main.humidity)}`
-//                 document.querySelector(".otherinfo p:nth-child(2)").innerHTML = `feels like: ${Math.floor( response.data.main.feels_like)}`
-//                 document.querySelector(".otherinfo p:nth-child(3)").innerHTML = `pressure: ${Math.floor( response.data.main.pressure)}`
-//                 document.querySelector(".otherinfo p:nth-child(4)").innerHTML = `wind-speed: ${Math.floor( response.data.wind.speed)}`
-//                 document.querySelector(".otherinfo p:nth-child(5)").innerHTML = `wind-deg: ${Math.floor( response.data.wind.deg)}`
+            .then(function(response){
+                console.log(response.data);
+                document.querySelector(".cityname").innerHTML = `${response.data.name},${response.data.sys.country}`
+                document.querySelector(".temp").innerHTML = `${Math.floor(response.data.main.temp)}<div>°C</div>`
+                document.querySelector(".climate").innerHTML = `${response.data.weather[0].main}`
+                document.querySelector(".otherinfo p:nth-child(1)").innerHTML = `humiduty: ${Math.floor( response.data.main.humidity)}`
+                document.querySelector(".otherinfo p:nth-child(2)").innerHTML = `feels like: ${Math.floor( response.data.main.feels_like)}`
+                document.querySelector(".otherinfo p:nth-child(3)").innerHTML = `pressure: ${Math.floor( response.data.main.pressure)}`
+                document.querySelector(".otherinfo p:nth-child(4)").innerHTML = `wind-speed: ${Math.floor( response.data.wind.speed)}`
+                document.querySelector(".otherinfo p:nth-child(5)").innerHTML = `wind-deg: ${Math.floor( response.data.wind.deg)}`
 
-//                         //    conditions for the icons accourding to weather
-// let climate = document.querySelector(".climate").innerHTML
-//         if(climate == "Clear"){
-//             document.querySelector(".temp-div div i").className = "wi wi-wu-clear";
-//             console.log(climate)
-//         }else if(climate == 'Haze'){
+                        //    conditions for the icons accourding to weather
+let climate = document.querySelector(".climate").innerHTML
+        if(climate == "Clear"){
+            document.querySelector(".temp-div div i").className = "wi wi-wu-clear";
+            console.log(climate)
+        }else if(climate == 'Haze'){
             
-//             document.querySelector(".temp-div div i").className = "wi wi-day-haze";
-//         }
-//         else{
-//             console.log("climate not found")
-//         }
-//             })
+            document.querySelector(".temp-div div i").className = "wi wi-day-haze";
+        }
+        else{
+            console.log("climate not found")
+        }
+            })
         
-
-
-
-            let API_KEY = "55ed6506084ce95d3d156f3e33617f3e";
-
-axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=karachi&appid=${API_KEY}&units=metric`)
-// api.openweathermap.org/data/2.5/forecast?id=524901&appid={API key}
-.then(function(respons){
-    let rs ="";
-    let lists = respons.data.list;
-    
-    for (let i = 0; i < lists.length; i++) {
-        let weekDays =["sun","Mon" , "Tues" , "Wed","Thus","Fri","Sat"];
-    
-        rs += `<div class="box">`
-        rs +=`<div class="future-temp-div"><i class="wi wi-day-cloudy"></i>${lists[i].main.temp}</div>`;
-        rs += weekDays[new Date(lists[i].dt_txt).getDay()] +"<br/>";
-        rs += "</div>"
-        
-        console.log(lists)
-    }
-    document.querySelector(".future-weather-div").innerHTML +=rs
-
-})
-.catch(function(error){
-      console.log(error.data);
-        result.innerHTML = "error in getting weather data"
-})
         }
 
 
@@ -262,11 +233,11 @@ userLocationWeather();
 
 
        
-                window.onload = function(){
+                 function forfutureweather(){
 
             
 
-            let API_KEY = "55ed6506084ce95d3d156f3e33617f3e";
+            let API_KEY = "55ed6506084ce95d3d156f3e33617f3e"
 
 axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=karachi&appid=${API_KEY}&units=metric`)
 // api.openweathermap.org/data/2.5/forecast?id=524901&appid={API key}
@@ -293,7 +264,7 @@ axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=karachi&appid=${API
         result.innerHTML = "error in getting weather data"
 })
         }
-
+        forfutureweather();
 
     </script>
 </body>
