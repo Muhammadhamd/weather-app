@@ -193,13 +193,15 @@ let climate = document.querySelector(".climate").innerHTML
         else{
             console.log("climate not found")
         }
+            })
+        }
+
 
 
         let API_KEY = "55ed6506084ce95d3d156f3e33617f3e";
 
 axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=karachi&appid=${API_KEY}&units=metric`)
 // api.openweathermap.org/data/2.5/forecast?id=524901&appid={API key}
-
 .then(function(respons){
     let rs ="";
     let lists = respons.data.list;
@@ -221,9 +223,6 @@ axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=karachi&appid=${API
       console.log(error.data);
         result.innerHTML = "error in getting weather data"
 })
-
-            })
-        }
             function error() {
                 document.querySelector(".cityname").innerHTML = "Unable to retrieve your location";
     }
@@ -261,7 +260,37 @@ userLocationWeather();
 
 
        
-           
+                window.onload = function(){
+
+            
+
+            let API_KEY = "55ed6506084ce95d3d156f3e33617f3e";
+
+axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=karachi&appid=${API_KEY}&units=metric`)
+// api.openweathermap.org/data/2.5/forecast?id=524901&appid={API key}
+
+.then(function(respons){
+    let rs ="";
+    let lists = respons.data.list;
+    
+    for (let i = 0; i < lists.length; i++) {
+        let weekDays =["sun","Mon" , "Tues" , "Wed","Thus","Fri","Sat"];
+    
+        rs += `<div class="box">`
+        rs +=`<div class="future-temp-div"><i class="wi wi-day-cloudy"></i>${lists[i].main.temp}</div>`;
+        rs += weekDays[new Date(lists[i].dt_txt).getDay()] +"<br/>";
+        rs += "</div>"
+        
+        console.log(lists)
+    }
+    document.querySelector(".future-weather-div").innerHTML +=rs
+
+})
+.catch(function(error){
+      console.log(error.data);
+        result.innerHTML = "error in getting weather data"
+})
+        }
 
 
     </script>
