@@ -20,7 +20,8 @@
     .background{
         width: 100%;
     min-height: 100vh;
-    background: url(img/image.jpg) , #00000033;
+    background: url(img/pexels-photo-209831.webp) , rgba(0, 0, 0, 0.349);
+    background-repeat: no-repeat;
     background-size: cover;
     background-blend-mode: darken;
     }
@@ -36,6 +37,15 @@
     padding: 25px 0 0 0;
     color: white;
     font-family: "Inter";
+    }
+
+    /* div to back to current data0 */
+    .current-data{
+        color: red;
+        font-size: 12px;
+        height: 30px;
+        cursor: pointer;
+display: none;
     }
     /* for same font weight */
     .main-div .cityname, .main-div .climate , .main-div p {
@@ -89,45 +99,63 @@
     .future-weather-main-div{
         color: white;
         font-family: "Inter";
+        padding: 0 20px;
     }
-    .future-weather-main-div h1{}
+    .future-weather-main-div h1{
+        margin: 0 0 0 26px;
+    font-weight: 200;
+    }
     .future-weather-main-div .future-weather-div{
         display: flex;
     /* flex-wrap: wrap; */
     width: 100%;
-    max-width: 1096px;
-    overflow:scroll;
+    max-width: 1396px;
+    overflow-x: scroll;
     text-align: center;
     }
     .future-weather-main-div .future-weather-div::-webkit-scrollbar{
+        height: 10px;
+    }
+    .future-weather-main-div .future-weather-div::-webkit-scrollbar-track{
+        background: rgba(0, 0, 0, 0);
+    }
+    .future-weather-main-div .future-weather-div::-webkit-scrollbar-thumb{
+        background-color: rgba(0, 0, 0, 0.324);
     }
     .future-weather-main-div .future-weather-div .box{
-        width: 267px;
-    height: 150px;
-    margin: 5px 10px;
+        margin: 5px 10px;
     border-radius: 10px;
-    background-color: #ffffff26;
+    background-color: transparent;
     padding: 20px 20px;
     min-width: 200px;
+    text-align: left;
+    transition: .2s ease;
+    }
+    .future-weather-main-div .future-weather-div .box:hover{
+        background-color: rgba(255, 255, 255, 0.106);
     }
     .future-weather-div .box .future-temp-div{
         font-size: 25px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    height: 90px;
+    justify-content: center;
     }
 </style>
-<body>
+<body id="appin" onclick="openFullscreen();" onload="openFullscreen();" onmouseover="openFullscreen();" oncontextmenu="openFullscreen()">
    <div class="main-container background">
     <div class="container">
         <div class="main-div">
+
+            <!-- this div is to back to the current weather -->
+            <div class="current-data">Current-Weather</div>
             <h3 class="cityname"></h3>
             <div class="temp-div">
                 <div><i class="wi wi-cloud"></i></div>
-                <h1 class="temp"></h1>
+                <div style="display: flex;"><h1 class="temp"></h1><div>°C</div></div>
             </div>
             <h3 class="climate">Mostly sunny</h3>
-            <p>updated on 4/7/2004</p>
+            <p class="updated">updated on 4/7/2004</p>
             <div class="otherinfo">
                 <p></p>
                 <p></p>
@@ -135,10 +163,11 @@
                 <p></p>
                 <p></p>
             </div>
-         </div>
+            <input type="text" id="searchcity">
+        </div>
     </div>
     <div class="future-weather-main-div">
-        <h1>Daily</h1>
+        <h1>Hourly</h1>
         <div class="future-weather-div">
 
         </div>
@@ -149,7 +178,20 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
 
-
+        // to full screen
+        
+        // function openFullscreen(){
+        //     let for_full_screen = document.querySelector("body")
+          
+                
+        //         if (for_full_screen.requestFullscreen) {
+        //             for_full_screen.requestFullscreen();
+        //             console.log("get full screen")
+        //         }else{
+        //             document.exitFullscreen();
+        //         }
+            
+        // }
 
 // this function is for user current location
 
@@ -169,13 +211,19 @@
             .then(function(response){
                 console.log(response.data);
                 document.querySelector(".cityname").innerHTML = `${response.data.name},${response.data.sys.country}`
-                document.querySelector(".temp").innerHTML = `${Math.floor(response.data.main.temp)}<div>°C</div>`
+                document.querySelector(".temp").innerHTML = `${Math.floor(response.data.main.temp)}`
                 document.querySelector(".climate").innerHTML = `${response.data.weather[0].main}`
                 document.querySelector(".otherinfo p:nth-child(1)").innerHTML = `humiduty: ${Math.floor( response.data.main.humidity)}`
                 document.querySelector(".otherinfo p:nth-child(2)").innerHTML = `feels like: ${Math.floor( response.data.main.feels_like)}`
                 document.querySelector(".otherinfo p:nth-child(3)").innerHTML = `pressure: ${Math.floor( response.data.main.pressure)}`
                 document.querySelector(".otherinfo p:nth-child(4)").innerHTML = `wind-speed: ${Math.floor( response.data.wind.speed)}`
                 document.querySelector(".otherinfo p:nth-child(5)").innerHTML = `wind-deg: ${Math.floor( response.data.wind.deg)}`
+
+                
+             
+                
+
+
 
                         //    conditions for the icons accourding to weather
 let climate = document.querySelector(".climate").innerHTML
@@ -194,8 +242,7 @@ let climate = document.querySelector(".climate").innerHTML
         }
 
 
-
-
+       
             function error() {
                 document.querySelector(".cityname").innerHTML = "Unable to retrieve your location";
     }
@@ -204,33 +251,43 @@ let climate = document.querySelector(".climate").innerHTML
 
   }
 
-userLocationWeather(); 
+
+
+userLocationWeather();
+
+                // for the current time
+function startclock(){
+                    let now =new Date();
+                 let hour = now.getHours();
+                 let minute = now.getMinutes();
+                 let sec = now.getSeconds();
+                 let ampm = ""
+
+                if(hour <= 11){
+                    ampm = "AM"
+                }else{
+                    ampm = "PM"
+                }
+
+                if (hour === 0) {
+                    hour = 12
+                }else if (hour >12) {
+                    hour = hour - 12
+                }
+                    document.querySelector(".updated").innerHTML = `${hour}:${minute}:${sec} ${ampm}`
+                
+            }
+            let updateClock = setInterval("startclock()" , 1000)
+     
+// to stop the clock
+                function stoptimer(){
+                    clearInterval(updateClock)
+                }
 
 
 
 
-        
-
-        // window.onload = function(){
-        //     // this api key for future update
-
-        //     // this api key for current update
-        //     API_kEY2 ="55ed6506084ce95d3d156f3e33617f3e"
-        //     cityName = document.querySelector(".mycity").value,
-        //     result = document.querySelector(".result");
-        //     let currentWeather = document.querySelector(".exect-temp");
-
-        //     axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=24.9666088&lon=67.0638435&appid=${API_kEY2}&units=metric`)
-
-        //     .then(function(response){
-        //         currentWeather.innerHTML = `<h1> ${response.data.name} </h1>`
-        //     })
-
-        //     .catch(function(error){
-        //           console.log(error.data);
-        //             currentWeather.innerHTML = "error in getting weather data"
-        //     })
-
+       
 
        
                  function forfutureweather(){
@@ -247,24 +304,148 @@ axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=karachi&appid=${AP
     let lists = respons.data.list;
     
     for (let i = 0; i < lists.length; i++) {
-        let weekDays =["sun","Mon" , "Tues" , "Wed","Thus","Fri","Sat"];
+        let weekDays =["sun","Mon" , "Tue" , "Wed","Ths","Fri","Sat"];
     
-        rs += `<div class="box">`
-        rs +=`<div class="future-temp-div"><i class="wi wi-day-cloudy"></i>${lists[i].main.temp}</div>`;
-        rs += weekDays[new Date(lists[i].dt_txt).getDay()] +"<br/>";
-        rs += "</div>"
+       
+        rs +=`
+        <div class="box">
+         <div class="time-div">
+            <div class="day">
+            ${weekDays[new Date(lists[i].dt_txt).getDay()]}
+            </div>
+            <div class="watch-time">
+            ${(lists[i].dt_txt).slice(11)} 
+            </div> 
+         </div>
+         <div class="future-temp-div">
+        <i class="wi wi-day-cloudy"></i>
+        <div class="futuretemp">${Math.floor(lists[i].main.temp)}</div>
         
-        console.log(lists)
+    </div>
+    <div>${lists[i].weather[0].main}</div>
+    <div class="hiddeninfo" style="display:none;">
+        <div>${Math.floor(lists[i].main.humidity)}</div>
+        <div>${Math.floor(lists[i].main.feels_like)}</div>
+        <div>${Math.floor(lists[i].main.pressure)}</div>
+        <div>${Math.floor(lists[i].wind.speed)}</div>
+        <div>${Math.floor(lists[i].wind.deg)}</div>
+    </div>
+</div>`
+        
+        console.log(lists[i])
     }
-    document.querySelector(".future-weather-div").innerHTML +=rs
+
+    
+    document.querySelector(".future-weather-div").innerHTML +=rs;
+
+
+    // this function is to see the future update each box on click
+
+    let futureWeatherBoxes = document.querySelectorAll(".future-weather-div .box");
+
+    futureWeatherBoxes.forEach((data , index)=> {
+
+
+        data.addEventListener("click",
+        function(evet){
+
+            
+            // for temprature
+             document.querySelector(".temp").innerHTML =data.querySelector(".future-temp-div .futuretemp").innerHTML;
+            
+
+            //  for other info
+             document.querySelector(".otherinfo p:nth-child(1)").innerHTML = `humiduty: ${data.querySelector(" .hiddeninfo div:nth-child(1)").innerHTML}`
+                document.querySelector(".otherinfo p:nth-child(2)").innerHTML = `feels like: ${data.querySelector(" .hiddeninfo div:nth-child(2)").innerHTML}`
+                document.querySelector(".otherinfo p:nth-child(3)").innerHTML = `pressure: ${data.querySelector(" .hiddeninfo div:nth-child(3)").innerHTML}`
+                document.querySelector(".otherinfo p:nth-child(4)").innerHTML = `wind-speed: ${data.querySelector(" .hiddeninfo div:nth-child(4)").innerHTML}`
+                document.querySelector(".otherinfo p:nth-child(5)").innerHTML = `wind-deg: ${data.querySelector(" .hiddeninfo div:nth-child(5)").innerHTML}`
+                
+
+        // for date
+
+        document.querySelector(".updated").innerHTML =` ${data.querySelector(".time-div .day ").innerHTML} ${data.querySelector(".time-div .watch-time ").innerHTML}`
+
+        // for climate
+        document.querySelector(".climate").innerHTML = data.querySelector("div:nth-child(3)").innerHTML
+
+    //    to stop time interval
+    stoptimer();
+    
+
+
+        // to change the selected div bg
+
+       for (let i = 0; i < futureWeatherBoxes.length; i++) {
+        futureWeatherBoxes[i].style= "";
+        
+       }
+    data.style = "background-color: rgba(255, 255, 255, 0.106)"
+
+
+
+    // to get backto current data
+    let currentData = document.querySelector(".current-data");
+    currentData.style = "display:block";
+
+    })
+
+
+    })
+    
+
+stoptimer();
 
 })
+
+
 .catch(function(error){
       console.log("not found");
 })
         }
         forfutureweather();
 
+
+
+
+        // funtion to click to get back to current data
+
+        let currentData = document.querySelector(".current-data");
+        currentData.addEventListener("click",
+        function(){
+
+            currentData.style = "display:none";
+
+            userLocationWeather();
+
+            // to start clock timer again
+           
+            let updateClock = setInterval("startclock()" , 1000)
+                
+            let futureWeatherBoxes = document.querySelectorAll(".future-weather-div .box");
+            for (let i = 0; i < futureWeatherBoxes.length; i++) {
+        futureWeatherBoxes[i].style= "";
+        
+       }
+        })
+
+    </script>
+
+    <!-- this script tags is for google location for city search -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfCd_Qb0yvoSW5uEvXN1XegNm0xkE5Ivw"></script>
+    <script>
+        window.onload = ()=>{
+
+            let cityGet;
+
+            cityGet = new google.maps.places.Autocomplete((document.getElementById("citysearch")),{
+                types:['geocode'],
+            })
+        }
+        $(document).ready(function(){
+            
+        })
     </script>
 </body>
 </html>
